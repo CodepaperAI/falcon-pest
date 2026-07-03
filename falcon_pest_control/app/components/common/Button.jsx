@@ -12,6 +12,15 @@ export function Button({ children, href, variant = "primary", className = "", ..
   const classes = `${baseClasses} ${variants[variant]} ${className}`.trim();
 
   if (href) {
+    // Handle tel: links with anchor tag
+    if (href.startsWith("tel:")) {
+      return (
+        <a href={href} className={classes} {...props}>
+          {children}
+        </a>
+      );
+    }
+    
     return (
       <Link href={href} className={classes} {...props}>
         {children}

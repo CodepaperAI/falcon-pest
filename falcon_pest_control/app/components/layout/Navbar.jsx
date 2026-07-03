@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X, PhoneCall } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { companyConfig } from "../../lib/config";
 
 const links = [
   { href: "/", label: "Home" },
@@ -51,9 +52,9 @@ export function Navbar() {
               {pathname === link.href ? <span className="absolute left-0 right-0 -bottom-1 h-0.5 rounded-full bg-[#D4AF37]" /> : null}
             </Link>
           ))}
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37]/20">
+          <a href={`tel:${companyConfig.phoneRaw}`} className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37]/20 hover:scale-105">
             <PhoneCall size={16} /> Call Now
-          </Link>
+          </a>
         </div>
 
         <button
@@ -85,9 +86,9 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-4 py-3 text-sm font-semibold text-black">
+              <a href={`tel:${companyConfig.phoneRaw}`} onClick={() => setMobileOpen(false)} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-4 py-3 text-sm font-semibold text-black hover:scale-105 transition">
                 <PhoneCall size={16} /> Call Now
-              </Link>
+              </a>
             </div>
           </motion.div>
         ) : null}

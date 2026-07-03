@@ -1,39 +1,195 @@
 const services = [
   {
+    id: 1,
     title: "General Pest Control",
     description: "Integrated protection for ants, roaches, silverfish, and other common household pests.",
     icon: "Bug",
     accent: "Protect your space with discreet, effective treatments.",
+    images: ["/services/general-pest-1.png", "/services/general-pest-2.png"],
+    details: "Our general pest control service provides comprehensive protection against a wide range of common household pests. We use safe, environmentally-friendly treatments that are effective yet discreet.",
+    process: [
+      {
+        step: 1,
+        title: "Inspection",
+        description: "Thorough examination of your property to identify pest entry points and infestation levels.",
+      },
+      {
+        step: 2,
+        title: "Treatment Plan",
+        description: "Customized treatment strategy tailored to your specific pest issues and property size.",
+      },
+      {
+        step: 3,
+        title: "Application",
+        description: "Professional application of targeted treatments in affected areas and preventative zones.",
+      },
+      {
+        step: 4,
+        title: "Follow-up",
+        description: "Regular monitoring and follow-up treatments to ensure complete elimination.",
+      },
+    ],
+    duration: "3-5 weeks for complete elimination",
   },
   {
+    id: 2,
     title: "Rodent Control",
     description: "Fast elimination and prevention of rats and mice with humane, durable solutions.",
     icon: "Mouse",
     accent: "Stop infestations before they spread.",
+    images: ["/services/rodent-control-1.png", "/services/rodent-control-2.png"],
+    details: "Professional rodent control services that eliminate existing infestations and prevent future invasions. We use humane traps and exclusion techniques for long-lasting results.",
+    process: [
+      {
+        step: 1,
+        title: "Assessment",
+        description: "Identify entry points, nesting areas, and the extent of the rodent infestation.",
+      },
+      {
+        step: 2,
+        title: "Trapping & Removal",
+        description: "Strategic placement of humane traps and removal of rodents from your property.",
+      },
+      {
+        step: 3,
+        title: "Exclusion",
+        description: "Seal entry points and gaps to prevent future rodent entry.",
+      },
+      {
+        step: 4,
+        title: "Sanitation",
+        description: "Clean and sanitize affected areas to eliminate contamination and odors.",
+      },
+    ],
+    duration: "1-2 weeks for complete elimination",
   },
   {
+    id: 3,
     title: "Spider Control",
     description: "Targeted web and egg-sac removal with long-lasting preventative treatments.",
     icon: "ScanSearch",
     accent: "Restore comfort and confidence at home.",
+    images: ["/services/spider-control-1.png", "/services/spider-control-2.png"],
+    details: "Specialized spider control that targets both existing spiders and their webs. Our treatments prevent new spider infestations while being safe for your family.",
+    process: [
+      {
+        step: 1,
+        title: "Web Identification",
+        description: "Locate all spider webs and identify high-traffic spider zones in your home.",
+      },
+      {
+        step: 2,
+        title: "Web & Egg Removal",
+        description: "Manual removal of webs and egg sacs to eliminate future spider populations.",
+      },
+      {
+        step: 3,
+        title: "Treatment Application",
+        description: "Apply targeted treatments to prevent new spiders from settling in your space.",
+      },
+      {
+        step: 4,
+        title: "Preventative Maintenance",
+        description: "Regular inspections and treatments to maintain a spider-free environment.",
+      },
+    ],
+    duration: "2-3 weeks for complete control",
   },
   {
+    id: 4,
     title: "Ant & Cockroach Control",
     description: "Precision treatments that remove existing colonies and block re-entry points.",
     icon: "ShieldCheck",
     accent: "Keep kitchens and bedrooms protected.",
+    images: ["/services/ant-cockroach-1.png", "/services/ant-cockroach-2.png"],
+    details: "Advanced treatments specifically designed for ant and cockroach infestations. We eliminate colonies at the source and prevent reinfestation.",
+    process: [
+      {
+        step: 1,
+        title: "Colony Detection",
+        description: "Identify ant trails and cockroach harboring areas using professional detection methods.",
+      },
+      {
+        step: 2,
+        title: "Targeted Treatment",
+        description: "Apply colony-eliminating treatments directly to nests and high-activity areas.",
+      },
+      {
+        step: 3,
+        title: "Entry Point Sealing",
+        description: "Block re-entry paths and treat potential access routes.",
+      },
+      {
+        step: 4,
+        title: "Ongoing Monitoring",
+        description: "Continue monitoring to ensure complete colony elimination and prevention.",
+      },
+    ],
+    duration: "2-4 weeks for complete elimination",
   },
   {
+    id: 5,
     title: "Preventive Treatments",
     description: "Seasonal protection plans tailored to your property and risk profile.",
     icon: "Sparkles",
     accent: "Stay ahead of recurring pest pressure.",
+    images: ["/services/preventive-1.png", "/services/preventive-2.png"],
+    details: "Proactive pest management programs designed to prevent infestations before they start. Perfect for maintaining pest-free properties year-round.",
+    process: [
+      {
+        step: 1,
+        title: "Property Assessment",
+        description: "Evaluate your property's vulnerability to seasonal pests and environmental factors.",
+      },
+      {
+        step: 2,
+        title: "Prevention Plan",
+        description: "Create a customized preventative treatment schedule based on seasonal pest activity.",
+      },
+      {
+        step: 3,
+        title: "Regular Treatments",
+        description: "Apply preventative treatments on a quarterly or monthly schedule as planned.",
+      },
+      {
+        step: 4,
+        title: "Monitoring & Adjustment",
+        description: "Monitor effectiveness and adjust treatments based on pest pressure changes.",
+      },
+    ],
+    duration: "Ongoing year-round protection",
   },
   {
+    id: 6,
     title: "One-Time & Ongoing Services",
     description: "Flexible options for urgent issues and continuous peace of mind all year round.",
     icon: "CalendarClock",
     accent: "Choose the plan that fits your needs.",
+    images: ["/services/service-plans-1.png", "/services/service-plans-2.png"],
+    details: "Flexible service options tailored to your needs. Whether you need urgent pest elimination or year-round protection, we have the right plan for you.",
+    process: [
+      {
+        step: 1,
+        title: "Consultation",
+        description: "Discuss your specific pest issues and determine the best service option.",
+      },
+      {
+        step: 2,
+        title: "Plan Selection",
+        description: "Choose between one-time emergency treatment or ongoing monthly/quarterly service.",
+      },
+      {
+        step: 3,
+        title: "Service Delivery",
+        description: "Receive professional pest control treatment on your preferred schedule.",
+      },
+      {
+        step: 4,
+        title: "Support & Follow-up",
+        description: "Enjoy continuous support and re-treatment as needed under your selected plan.",
+      },
+    ],
+    duration: "One-time: 1 week | Ongoing: Continuous coverage",
   },
 ];
 

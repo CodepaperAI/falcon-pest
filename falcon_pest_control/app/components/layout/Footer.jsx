@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Phone, Mail, MapPin } from "lucide-react";
 import { Container } from "../common/Container";
+import { companyConfig } from "../../lib/config";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -38,14 +39,14 @@ export function Footer() {
         <div>
           <h4 className="text-lg font-semibold text-white">Contact</h4>
           <ul className="mt-4 space-y-3 text-sm text-[#BDBDBD]">
-            <li className="flex gap-2"><Phone size={16} className="mt-0.5 text-[#D4AF37]" /> +1 (647) 123-4567</li>
-            <li className="flex gap-2"><Mail size={16} className="mt-0.5 text-[#D4AF37]" /> hello@falconpestcontrol.com</li>
-            <li className="flex gap-2"><MapPin size={16} className="mt-0.5 text-[#D4AF37]" /> Toronto, Ontario</li>
+            <li className="flex gap-2"><a href={`tel:${companyConfig.phoneRaw}`} className="flex gap-2 items-center transition hover:text-[#D4AF37]"><Phone size={16} className="mt-0.5 text-[#D4AF37]" /> {companyConfig.phone}</a></li>
+            <li className="flex gap-2"><a href={`mailto:${companyConfig.email}`} className="flex gap-2 items-center transition hover:text-[#D4AF37]"><Mail size={16} className="mt-0.5 text-[#D4AF37]" /> {companyConfig.email}</a></li>
+            <li className="flex gap-2"><MapPin size={16} className="mt-0.5 text-[#D4AF37]" /> {companyConfig.address}</li>
           </ul>
           <div className="mt-6 flex gap-3">
-            <a href="#" className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="Instagram"><Instagram size={16} /></a>
-            <a href="#" className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="Facebook"><Facebook size={16} /></a>
-            <a href="#" className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="LinkedIn"><Linkedin size={16} /></a>
+            <a href={companyConfig.social.instagram} className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="Instagram"><Instagram size={16} /></a>
+            <a href={companyConfig.social.facebook} className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="Facebook"><Facebook size={16} /></a>
+            <a href={companyConfig.social.twitter} className="rounded-full border border-[#2A2A2A] p-2 text-[#BDBDBD] transition hover:border-[#D4AF37] hover:text-[#D4AF37]" aria-label="Twitter"><Linkedin size={16} /></a>
           </div>
         </div>
       </Container>

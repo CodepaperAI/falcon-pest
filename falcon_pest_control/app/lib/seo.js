@@ -40,7 +40,7 @@ export function getBaseMetadata(path = "/", title = "Falcon Pest Control", descr
       type: "website",
       images: [
         {
-          url: "/hero5.png",
+          url: "/hero1.png",
           width: 1200,
           height: 800,
           alt: "Falcon Pest Control premium service",
@@ -51,12 +51,12 @@ export function getBaseMetadata(path = "/", title = "Falcon Pest Control", descr
       card: "summary_large_image",
       title: title === "Falcon Pest Control" ? title : `${title} | Falcon Pest Control`,
       description,
-      images: ["/hero5.png"],
+      images: ["/hero1.png"],
     },
     icons: {
-      icon: "/logo1.png",
-      shortcut: "/logo1.png",
-      apple: "/logo1.png",
+      icon: "/logo.png",
+      shortcut: "/logo.png",
+      apple: "/logo.png",
     },
   };
 }
@@ -88,7 +88,7 @@ export const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Falcon Pest Control",
-    image: `${siteUrl}/hero5.png`,
+    image: `${siteUrl}/hero1.png`,
     priceRange: "$",
     telephone: "+1-647-123-4567",
     address: {
