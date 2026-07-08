@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BookingPromptModal from "@/components/ui/BookingPromptModal";
-
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 /**
  * LayoutWrapper
  * -----------------------------------------------------------------------------
@@ -36,6 +36,9 @@ export default function LayoutWrapper({ children }) {
 
       {/* Rendered once so any "Book" control can trigger it from anywhere. */}
       <BookingPromptModal />
+   {/* Floating WhatsApp chat button (fixed, appears on every page) */}
+       <WhatsAppButton />
     </div>
   );
 }
+

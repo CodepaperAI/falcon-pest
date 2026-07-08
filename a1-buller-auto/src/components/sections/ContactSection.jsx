@@ -122,7 +122,7 @@ export default function ContactSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-secondary mt-4 max-w-md text-lg leading-relaxed"
           >
-            Attach a few photos of the damage and we'll come back with a clear,
+            Attach a few photos of the damage and we&apos;ll come back with a clear,
             no-obligation estimate — usually within one business day.
           </motion.p>
 

@@ -38,8 +38,8 @@ const CAPABILITIES = [
     body: "New tire sales, road-force balancing, rotations, and fast flat repairs to keep you rolling.",
   },
   {
-    title: "Uber / TLC Inspection",
-    body: "Same-day NYC Taxi & Limousine Commission inspections so rideshare drivers stay compliant and earning.",
+    title: "Uber Inspection",
+    body: "Same-day Taxi & Limousine Commission inspections so rideshare drivers stay compliant and earning.",
   },
 ];
 

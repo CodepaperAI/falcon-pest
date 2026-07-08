@@ -38,7 +38,7 @@ export default function ContactPage() {
             className="mt-4 text-base text-secondary"
           >
             Questions, quotes, or want to describe a repair? Send a note and
-            attach a few photos — we'll follow up quickly.
+            attach a few photos — we&apos;ll follow up quickly.
           </motion.p>
         </div>
       </section>

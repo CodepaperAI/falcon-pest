@@ -11,8 +11,6 @@ import LayoutWrapper from "@/components/layout/LayoutWrapper";
  * next/font self-hosts both and exposes them as CSS variables:
  *   --font-jakarta -> display/headings (font-display in Tailwind)
  *   --font-inter   -> body/UI text     (font-sans in Tailwind, the default)
- * Attaching both variables at the app root gives every element a consistent,
- * layout-shift-free type system.
  */
 const inter = Inter({
   subsets: ["latin"],
@@ -31,7 +29,6 @@ export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        {/* CartProvider wraps the layout so the Navbar badge + all pages share state. */}
         <CartProvider>
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -39,7 +36,20 @@ export default function App({ Component, pageProps }) {
             <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
           </Head>
 
-          {/* Both font variables live here; font-sans/font-display consume them. */}
+          {/*
+            Publish the next/font variables on :root so they're available
+            GLOBALLY — including inside React portals (modals render into
+            document.body, which is OUTSIDE the wrapper div below). Without
+            this, portaled modals fall back to the system font.
+          */}
+          <style jsx global>{`
+            :root {
+              --font-inter: ${inter.style.fontFamily};
+              --font-jakarta: ${jakarta.style.fontFamily};
+            }
+          `}</style>
+
+          {/* Wrapper still applies font-sans as the default for the app tree. */}
           <div className={`${inter.variable} ${jakarta.variable} font-sans`}>
             <LayoutWrapper>
               <Component {...pageProps} />

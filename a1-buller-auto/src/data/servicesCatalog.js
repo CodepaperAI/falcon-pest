@@ -185,4 +185,4 @@ function buildSlots(startMinutes, endMinutes, step = 30) {
  * Bookable time slots: 9:00 AM (540) through 4:30 PM (990), every 30 minutes.
  * Result: 9:00, 9:30, 10:00 ... 4:00, 4:30 PM (16 slots total).
  */
-export const TIME_SLOTS = buildSlots(9 * 60, 16 * 60 + 30, 30);
+export const TIME_SLOTS = buildSlots(9 * 60, 17 * 60 + 30, 30);

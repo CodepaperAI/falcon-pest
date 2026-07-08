@@ -19,7 +19,8 @@ const BADGES = [
   "Hyundai Certified",
   "I-CAR Gold Class",
   "Aluminum Repair",
-  "Tesla-Compatible",
+  "Nissan-Compatible",
+  "OEC"
 ];
 
 // Shared stagger config for the entrance sequence.

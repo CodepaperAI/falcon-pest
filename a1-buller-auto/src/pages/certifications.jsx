@@ -32,7 +32,11 @@ const CERTS = [
     detail: "Isolated aluminum bay, dedicated tooling, and welders trained for aluminum-bodied vehicles.",
   },
   {
-    name: "Tesla-Compatible EV Repair",
+    name: "Nissan-Compatible Repair",
+    detail: "High-voltage-safe handling and structural aluminum capability for electric vehicles.",
+  },
+  {
+    name: "OEC",
     detail: "High-voltage-safe handling and structural aluminum capability for electric vehicles.",
   },
 ];
@@ -67,8 +71,8 @@ export default function CertificationsPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-secondary mt-4 text-lg leading-relaxed"
           >
-            Certifications aren't decoration — they dictate the procedures, tooling,
-            and parts we're authorized to use. Here's what ours mean for you.
+            Certifications aren&apos;t decoration — they dictate the procedures, tooling,
+            and parts we&apos;re authorized to use. Here&apos;s what ours mean for you.
           </motion.p>
         </div>
 
