@@ -18,7 +18,7 @@ export default function ContactPage() {
       <Script id="jsonld-contact" type="application/ld+json">
         {JSON.stringify([jsonLd.website("/contact"), jsonLd.breadcrumb([{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }])])}
       </Script>
-      <PageBanner title="Contact Falcon" description="Reach out for a consultation, emergency support, or a customized protection plan." image="/contact_us.png" eyebrow="Contact" />
+      <PageBanner title="Contact Falcon" description="Reach out for a consultation, emergency support, or a customized protection plan." image="/contact_us4.png" eyebrow="Contact" />
       <Section>
         <Container className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <FadeIn>

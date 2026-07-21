@@ -29,7 +29,7 @@ export default function ServicesPage() {
 
   return (
     <main className="bg-black text-white">
-      <PageBanner title="Our Services" description="From one-time interventions to ongoing protection, every plan is tailored, precise, and premium." image="/services3.png" eyebrow="Services" />
+      <PageBanner title="Our Services" description="From one-time interventions to ongoing protection, every plan is tailored, precise, and premium." image="/services7.png" eyebrow="Services" />
       <Section>
         <Container>
           <Heading eyebrow="What we provide" title="A comprehensive suite of pest solutions." description="Choose a single treatment or a year-round protection plan that keeps your property secure." center />

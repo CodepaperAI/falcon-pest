@@ -30,7 +30,7 @@ export function Navbar() {
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "bg-black/90 shadow-[0_0_40px_rgba(0,0,0,0.5)] backdrop-blur-xl" : "bg-transparent"}`}>
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Falcon Pest Control home">
           <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-[#D4AF37]/40 bg-[#111111]">
             <Image src="/logo.png" alt="Falcon Pest Control logo" width={32} height={32} />
@@ -75,7 +75,7 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden border-t border-[#2A2A2A] bg-black/95 lg:hidden"
           >
-            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:px-6">
+            <div className="mx-auto flex flex-col gap-4 px-4 py-6 sm:px-6">
               {links.map((link) => (
                 <Link
                   key={link.href}

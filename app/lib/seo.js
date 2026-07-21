@@ -53,11 +53,6 @@ export function getBaseMetadata(path = "/", title = "Falcon Pest Control", descr
       description,
       images: ["/hero1.png"],
     },
-    icons: {
-      icon: "/logo.png",
-      shortcut: "/logo.png",
-      apple: "/logo.png",
-    },
   };
 }
 
