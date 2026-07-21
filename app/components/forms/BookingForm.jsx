@@ -37,7 +37,7 @@ const [success, setSuccess] = useState("");
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 rounded-[2rem] border border-[#2A2A2A] bg-[#111111] p-8">
       <Input label="Name" placeholder="Ava Lewis" error={errors.name?.message} {...register("name")} />
       <Input label="Email" type="email" placeholder="ava@email.com" error={errors.email?.message} {...register("email")} />
-      <Input label="Phone Number" placeholder="+91XXXXXXXXXX" error={errors.phone?.message} {...register("phone")} />
+      <Input label="Phone Number" placeholder="(905) 123-4567" error={errors.phone?.message} {...register("phone")} />
 
       {/* Service dropdown — styled to match Input */}
       <label className="block text-sm text-[#BDBDBD]">
