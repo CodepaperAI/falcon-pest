@@ -17,3 +17,22 @@ export const contactSchema = z.object({
   }, "Only Indian or Canadian numbers are accepted"),
   message: z.string().min(10, "Please share a bit more detail about your needs"),
 });
+
+export const bookingSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(7, "Please enter a valid phone number").refine((value) => {
+    const normalized = value.replace(/[^\d+]/g, "");
+    const indiaPattern = /^(\+91[6-9]\d{9}|[6-9]\d{9})$/;
+    const canadaPattern = /^(\+1[2-9]\d{9}|[2-9]\d{9})$/;
+    return indiaPattern.test(normalized) || canadaPattern.test(normalized);
+  }, "Only Indian or Canadian numbers are accepted"),
+  service: z.string().min(1, "Please select a service"),
+  date: z.string().min(1, "Please choose a date").refine((value) => {
+    const selected = new Date(value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selected >= today;
+  }, "Please choose today or a future date"),
+  note: z.string().optional(),
+});

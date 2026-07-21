@@ -68,7 +68,7 @@ export function HeroSlider() {
                   <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">{slide.title}</h1>
                   <p className="mt-6 text-lg leading-8 text-[#D8D8D8]">{slide.subtitle}</p>
                   <div className="mt-8 flex flex-wrap gap-4">
-                    <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#C9A227]">
+                    <Link href="/book" className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#C9A227]">
                       Book Service <ArrowRight size={18} />
                     </Link>
                     <Link href="/services" className="inline-flex items-center rounded-full border border-[#2A2A2A] bg-black/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#D4AF37] hover:text-[#D4AF37]">

@@ -33,7 +33,7 @@ export function Navbar() {
       <nav className="mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Falcon Pest Control home">
           <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-[#D4AF37]/40 bg-[#111111]">
-            <Image src="/logo.png" alt="Falcon Pest Control logo" width={32} height={32} />
+            <Image src="/logo.png" alt="Falcon Pest Control logo" width={44} height={44} />
           </div>
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#D4AF37]">Falcon</p>
