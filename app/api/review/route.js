@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { reviewSchema } from "../../../lib/validation";
+import { reviewSchema } from "../../lib/validation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
