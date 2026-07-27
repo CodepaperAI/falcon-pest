@@ -13,7 +13,7 @@ import services from "../../data/services";
 const todayStr = new Date().toISOString().split("T")[0];
 
 export function BookingForm({ defaultService = "", onSuccess }) {
- const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const {
@@ -26,7 +26,7 @@ export function BookingForm({ defaultService = "", onSuccess }) {
     defaultValues: { service: defaultService },
   });
 
-   const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
     setSubmitting(true);
     setErrorMsg("");
     try {
@@ -38,7 +38,7 @@ export function BookingForm({ defaultService = "", onSuccess }) {
       if (!res.ok) throw new Error("Request failed");
 
       setSuccess(`Thank you, ${data.name}. Your booking for ${data.service} on ${data.date} has been received. Our team will confirm shortly.`);
-      reset({ service: defaultService });
+      reset({ name: "", email: "", phone: "", service: defaultService, date: "", note: "" }); // clear every field explicitly
       if (onSuccess) setTimeout(() => onSuccess(), 1800);
     } catch (err) {
       setErrorMsg("Sorry, we couldn't send your booking. Please call us at 289-990-5828.");

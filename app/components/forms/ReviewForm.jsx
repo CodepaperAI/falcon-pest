@@ -40,7 +40,8 @@ export function ReviewForm() {
       if (!res.ok) throw new Error("Request failed");
 
       setSuccess(`Thank you, ${data.name}. Your review has been sent to our team.`);
-      reset({ rating: 5 });
+      reset({ name: "", review: "", rating: 5 }); // clear every field explicitly
+      setHovered(0);
     } catch (err) {
       setErrorMsg("Sorry, we couldn't send your review. Please try again or call us at 289-990-5828.");
     } finally {
