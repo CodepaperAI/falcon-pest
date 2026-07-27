@@ -1,3 +1,4 @@
+import { companyConfig } from "./config";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://falconpestcontrol.com";
 const defaultDescription =
   "Falcon Pest Control offers premium, eco-conscious pest management for homes and businesses with luxury-level service.";
@@ -71,28 +72,38 @@ export const jsonLd = {
     url: `${siteUrl}${path}`,
     description: defaultDescription,
   }),
-  organization: () => ({
+organization: () => ({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Falcon Pest Control",
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
-    sameAs: ["https://www.instagram.com", "https://www.linkedin.com"],
+    sameAs: Object.values(companyConfig.social),
   }),
-  localBusiness: () => ({
+ localBusiness: () => ({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Falcon Pest Control",
-    image: `${siteUrl}/hero1.png`,
-    priceRange: "$",
-    telephone: "+1-647-123-4567",
-    address: {
+    image: `${siteUrl}/hero5.png`,
+    priceRange: "$$",
+    telephone: companyConfig.phoneRaw,
+    email: companyConfig.email,
+    url: siteUrl,
+   address: {
       "@type": "PostalAddress",
-      addressLocality: "Toronto",
+      addressLocality: "Niagara",
       addressRegion: "ON",
       addressCountry: "CA",
     },
-    areaServed: ["Toronto", "Mississauga", "Brampton"],
+    areaServed: ["Niagara Region", "Hamilton Region"],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "08:00",
+        closes: "19:00",
+      },
+    ],
     description: defaultDescription,
   }),
   breadcrumb: (items) => ({

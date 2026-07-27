@@ -13,7 +13,9 @@ import services from "../../data/services";
 const todayStr = new Date().toISOString().split("T")[0];
 
 export function BookingForm({ defaultService = "", onSuccess }) {
-const [success, setSuccess] = useState("");
+ const [success, setSuccess] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,12 +26,24 @@ const [success, setSuccess] = useState("");
     defaultValues: { service: defaultService },
   });
 
-  const onSubmit = (data) => {
-    setSuccess(`Thank you, ${data.name}. Your booking for ${data.service} on ${data.date} has been received. Our team will confirm shortly.`);
-    reset({ service: defaultService });
-    // If used inside the modal, close it after a short confirmation delay
-    if (onSuccess) {
-      setTimeout(() => onSuccess(), 1800);
+   const onSubmit = async (data) => {
+    setSubmitting(true);
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Request failed");
+
+      setSuccess(`Thank you, ${data.name}. Your booking for ${data.service} on ${data.date} has been received. Our team will confirm shortly.`);
+      reset({ service: defaultService });
+      if (onSuccess) setTimeout(() => onSuccess(), 1800);
+    } catch (err) {
+      setErrorMsg("Sorry, we couldn't send your booking. Please call us at 289-990-5828.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -57,8 +71,11 @@ const [success, setSuccess] = useState("");
       <Input label="Preferred Date" type="date" min={todayStr} error={errors.date?.message} {...register("date")} />
       <Textarea label="Note (optional)" placeholder="Anything we should know about the property or the issue?" error={errors.note?.message} {...register("note")} />
 
-      <Button type="submit" className="w-full">Book Service</Button>
+      <Button type="submit" className="w-full" disabled={submitting}>
+        {submitting ? "Sending..." : "Book Service"}
+      </Button>
       {success ? <p className="rounded-2xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 p-4 text-sm text-[#D4AF37]">{success}</p> : null}
+      {errorMsg ? <p className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">{errorMsg}</p> : null}
     </form>
   );
 }

@@ -15,9 +15,9 @@ import Image from "next/image";
 export const metadata = getPageMetadata("/contact", "Contact Us", "Get in touch with Falcon Pest Control for premium inspection and treatment requests.");
 
 const contactInfo = [
-  { icon: MapPin, label: "Address", value: "St. Catharines, Ontario, Canada" },
+  { icon: MapPin, label: "Address", value: "4551 Zimmerman Ave, Niagara Falls, ON L2E 3M5, Canada" },
   { icon: Phone, label: "Phone", value: "289-990-5828", href: "tel:+12899905828" },
-  { icon: Mail, label: "Email", value: "info@falconpestcontrol.ca", href: "mailto:info@falconpestcontrol.ca" },
+  { icon: Mail, label: "Email", value: " falconexterminators@gmail.com", href: "mailto:falconexterminators@gmail.com " },
   { icon: Clock, label: "Working Hours", value: "Mon - Sat: 8:00 AM - 7:00 PM" },
   { icon: Globe, label: "Service Area", value: "Serving Niagara & Hamilton Region" },
 ];

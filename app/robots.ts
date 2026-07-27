@@ -1,11 +1,12 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://falconpestcontrol.ca";
   return {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://falconpestcontrol.com/sitemap.xml",
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
