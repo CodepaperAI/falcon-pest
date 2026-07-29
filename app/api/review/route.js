@@ -1,7 +1,14 @@
 import { Resend } from "resend";
 import { reviewSchema } from "../../lib/validation";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Constructed lazily. `new Resend()` throws when RESEND_API_KEY is absent, and
+// at module scope that turns a missing runtime secret into a hard BUILD
+// failure — the build should not depend on a mail credential.
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  return new Resend(key);
+}
 
 export async function POST(request) {
   try {
@@ -13,6 +20,12 @@ export async function POST(request) {
     }
 
     const { name, rating, review } = parsed.data;
+
+    const resend = getResend();
+    if (!resend) {
+      console.error("RESEND_API_KEY is not set; cannot send mail.");
+      return Response.json({ error: "Mail is not configured" }, { status: 500 });
+    }
 
     const { error } = await resend.emails.send({
       from: `${name} <${process.env.BOOKING_FROM_EMAIL}>`,

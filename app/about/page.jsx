@@ -1,5 +1,4 @@
-import { getPageMetadata, jsonLd } from "../lib/seo";
-import Script from "next/script";
+import { getPageMetadata, jsonLd, JsonLd } from "../lib/seo";
 import { PageBanner } from "../components/common/PageBanner";
 import { Section } from "../components/common/Section";
 import { Container } from "../components/common/Container";
@@ -20,9 +19,7 @@ const values = [
 export default function AboutPage() {
   return (
     <main className="bg-black text-white">
-      <Script id="jsonld-about" type="application/ld+json">
-        {JSON.stringify([jsonLd.website("/about"), jsonLd.breadcrumb([{ name: "Home", href: "/" }, { name: "About", href: "/about" }])])}
-      </Script>
+      <JsonLd data={[jsonLd.website("/about"), jsonLd.breadcrumb([{ name: "Home", href: "/" }, { name: "About", href: "/about" }])]} />
       <PageBanner title="About Falcon Pest Control" description="We bring premium care, meticulous planning, and modern pest science to homes and businesses across the region." image="/hero5.png" eyebrow="About us" />
       <Section>
         <Container className="grid gap-8 lg:grid-cols-3">

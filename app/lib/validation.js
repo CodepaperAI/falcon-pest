@@ -1,5 +1,29 @@
 import { z } from "zod";
 
+// Lead attribution. Without these, a submission arrives with no indication of
+// which page produced it, so there is no way to tell whether a landing page is
+// generating business. `sourcePage` is the pathname the form was submitted
+// from; `sourceSection` is a closed union naming the CTA surface.
+//
+// sourcePage is deliberately an open string, NOT an enum of known routes — a
+// closed enum would silently 400 every submission from any page added later.
+export const SOURCE_SECTIONS = [
+  "hero",
+  "inline-cta",
+  "post-table-cta",
+  "sticky-bar",
+  "footer-cta",
+  "booking-page",
+  "contact-page",
+  "service-modal",
+  "unknown",
+];
+
+const attribution = {
+  sourcePage: z.string().max(200).optional().default("unknown"),
+  sourceSection: z.enum(SOURCE_SECTIONS).optional().default("unknown"),
+};
+
 export const reviewSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   rating: z.coerce.number().min(1, "Please choose a rating").max(5),
@@ -21,6 +45,7 @@ phone: z.string().min(7, "Please enter a valid phone number").refine((value) => 
   return digits.length === 10 && allowed.includes(areaCode);
 }, "Please enter a Niagara/Hamilton region number (905, 289, 365, or 742)"),
   message: z.string().min(10, "Please share a bit more detail about your needs"),
+  ...attribution,
 });
 
 export const bookingSchema = z.object({
@@ -45,4 +70,5 @@ export const bookingSchema = z.object({
     return selected >= today;
   }, "Please choose today or a future date"),
   note: z.string().optional(),
+  ...attribution,
 });

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingSchema } from "../../lib/validation";
+import { useLeadSource } from "../../lib/useLeadSource";
 import { Input } from "../common/Input";
 import { Textarea } from "../common/Textarea";
 import { Button } from "../common/Button";
@@ -12,10 +13,11 @@ import services from "../../data/services";
 // Today in YYYY-MM-DD for the date input's min attribute
 const todayStr = new Date().toISOString().split("T")[0];
 
-export function BookingForm({ defaultService = "", onSuccess }) {
+export function BookingForm({ defaultService = "", onSuccess, section = "booking-page" }) {
   const [success, setSuccess] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const leadSource = useLeadSource(section);
   const {
     register,
     handleSubmit,
@@ -33,7 +35,7 @@ export function BookingForm({ defaultService = "", onSuccess }) {
       const res = await fetch("/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ...leadSource }),
       });
       if (!res.ok) throw new Error("Request failed");
 

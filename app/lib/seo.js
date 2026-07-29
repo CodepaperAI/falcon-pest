@@ -1,10 +1,16 @@
 import { companyConfig } from "./config";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://falconpestcontrol.com";
+import { SITE_URL, absoluteUrl, SERVICE_AREA } from "./site";
+
+const siteUrl = SITE_URL;
 const defaultDescription =
-  "Falcon Pest Control offers premium, eco-conscious pest management for homes and businesses with luxury-level service.";
+  "Licensed pest control across the Niagara Region — rodents, cockroaches, ants and spiders. Falcon Pest Control serves Niagara Falls, St. Catharines, Welland and the surrounding municipalities.";
+
+// The OG image must exist. /hero1.png was referenced site-wide but is absent
+// from public/, so every social share of every page rendered a broken image.
+const defaultOgImage = "/hero5.png";
 
 export function getBaseMetadata(path = "/", title = "Falcon Pest Control", description = defaultDescription) {
-  const canonical = `${siteUrl}${path}`;
+  const canonical = absoluteUrl(path);
   return {
     metadataBase: new URL(siteUrl),
     title: {
@@ -41,18 +47,19 @@ export function getBaseMetadata(path = "/", title = "Falcon Pest Control", descr
       type: "website",
       images: [
         {
-          url: "/hero1.png",
+          url: defaultOgImage,
           width: 1200,
           height: 800,
-          alt: "Falcon Pest Control premium service",
+          alt: "Falcon Pest Control technician in protective equipment applying a treatment inside a home",
         },
       ],
+      locale: "en_CA",
     },
     twitter: {
       card: "summary_large_image",
       title: title === "Falcon Pest Control" ? title : `${title} | Falcon Pest Control`,
       description,
-      images: ["/hero1.png"],
+      images: [defaultOgImage],
     },
   };
 }
@@ -69,33 +76,44 @@ export const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Falcon Pest Control",
-    url: `${siteUrl}${path}`,
+    url: absoluteUrl(path),
     description: defaultDescription,
   }),
-organization: () => ({
+  organization: () => ({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Falcon Pest Control",
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
-    sameAs: Object.values(companyConfig.social),
+    // Only emit sameAs for profiles that actually exist. companyConfig.social
+    // still carries placeholder handles, so an unverified URL here would assert
+    // a profile Falcon may not own.
+    ...(companyConfig.socialVerified ? { sameAs: Object.values(companyConfig.social) } : {}),
   }),
- localBusiness: () => ({
+  localBusiness: () => ({
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "PestControlService",
+    "@id": `${siteUrl}/#localbusiness`,
     name: "Falcon Pest Control",
     image: `${siteUrl}/hero5.png`,
     priceRange: "$$",
     telephone: companyConfig.phoneRaw,
     email: companyConfig.email,
     url: siteUrl,
-   address: {
+    address: {
       "@type": "PostalAddress",
-      addressLocality: "Niagara",
+      streetAddress: "4551 Zimmerman Ave",
+      addressLocality: "Niagara Falls",
       addressRegion: "ON",
+      postalCode: "L2E 3M5",
+      // Explicit CA matters: these SERPs are saturated with Niagara Falls, NY.
       addressCountry: "CA",
     },
-    areaServed: ["Niagara Region", "Hamilton Region"],
+    areaServed: SERVICE_AREA.map((name) => ({
+      "@type": "City",
+      name,
+      containedInPlace: { "@type": "AdministrativeArea", name: "Niagara Region, Ontario" },
+    })),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -106,6 +124,17 @@ organization: () => ({
     ],
     description: defaultDescription,
   }),
+  /** Service schema for a single service/pest page. */
+  service: ({ name, description, path, areaServed = SERVICE_AREA }) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: name,
+    name,
+    description,
+    url: absoluteUrl(path),
+    provider: { "@id": `${siteUrl}/#localbusiness` },
+    areaServed: areaServed.map((n) => ({ "@type": "City", name: n })),
+  }),
   breadcrumb: (items) => ({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -113,7 +142,7 @@ organization: () => ({
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${siteUrl}${item.href}`,
+      item: absoluteUrl(item.href),
     })),
   }),
   faq: (faqs) => ({
@@ -129,3 +158,27 @@ organization: () => ({
     })),
   }),
 };
+
+/**
+ * Server-rendered JSON-LD.
+ *
+ * This MUST NOT use next/script. `<Script>` injects the tag on the client after
+ * hydration, so the schema is absent from the served HTML and invisible to any
+ * crawler that does not execute JavaScript — which is how every page on this
+ * site previously shipped zero structured data despite defining plenty of it.
+ *
+ * A plain <script> tag with dangerouslySetInnerHTML renders server-side.
+ * The `<` escape prevents a "</script>" sequence inside the data from
+ * terminating the tag early.
+ */
+export function JsonLd({ data }) {
+  const payload = Array.isArray(data) ? data : [data];
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(payload.length === 1 ? payload[0] : payload).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
+}

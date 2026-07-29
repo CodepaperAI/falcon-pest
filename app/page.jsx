@@ -4,21 +4,27 @@ import { ServicesPreview } from "./components/home/ServicesPreview";
 import { WhyChooseUs } from "./components/home/WhyChooseUs";
 import { ReviewPreview } from "./components/home/ReviewPreview";
 import { CTA } from "./components/home/CTA";
-import { getBaseMetadata, jsonLd } from "./lib/seo";
-import Script from "next/script";
+import { getBaseMetadata, jsonLd, JsonLd } from "./lib/seo";
 
-export const metadata = getBaseMetadata(
-  "/",
-  "Falcon Pest Control",
-  "Premium luxury pest control services with elite protection for homes and businesses."
-);
+// The homepage <title> was literally "Falcon Pest Control" — no service term,
+// no location. Overriding `title` here (rather than relying on getBaseMetadata's
+// title.default) makes the site's most linked page target its actual query.
+export const metadata = {
+  ...getBaseMetadata(
+    "/",
+    "Falcon Pest Control",
+    "Licensed pest control across the Niagara Region. Falcon Pest Control treats rodents, cockroaches, ants and spiders in Niagara Falls, St. Catharines, Welland and surrounding municipalities."
+  ),
+  title: {
+    absolute: "Pest Control Niagara Falls & Niagara Region | Falcon Pest Control",
+    template: "%s | Falcon Pest Control",
+  },
+};
 
 export default function Home() {
   return (
     <main className="bg-black text-white">
-      <Script id="jsonld-home" type="application/ld+json">
-        {JSON.stringify([jsonLd.website("/"), jsonLd.localBusiness(), jsonLd.organization()])}
-      </Script>
+      <JsonLd data={[jsonLd.website("/"), jsonLd.localBusiness(), jsonLd.organization()]} />
       <HeroSlider />
       <AboutPreview />
       <ServicesPreview />

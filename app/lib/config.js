@@ -15,6 +15,11 @@ export const companyConfig = {
     facebook: "https://facebook.com/falconpestcontrol",
     instagram: "https://instagram.com/falconpestcontrol",
   },
+  // Set true ONLY once every URL in `social` above has been opened and confirmed
+  // to be Falcon's real profile. Until then these are placeholder handles, and
+  // emitting them in Organization.sameAs would assert ownership of accounts
+  // Falcon may not control.
+  socialVerified: false,
 };
 
 export default companyConfig;

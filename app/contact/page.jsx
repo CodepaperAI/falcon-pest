@@ -1,5 +1,4 @@
-import { getPageMetadata, jsonLd } from "../lib/seo";
-import Script from "next/script";
+import { getPageMetadata, jsonLd, JsonLd } from "../lib/seo";
 import { Section } from "../components/common/Section";
 import { Container } from "../components/common/Container";
 import { Heading } from "../components/common/Heading";
@@ -25,9 +24,7 @@ const contactInfo = [
 export default function ContactPage() {
   return (
     <main className="bg-black text-white">
-      <Script id="jsonld-contact" type="application/ld+json">
-        {JSON.stringify([jsonLd.website("/contact"), jsonLd.breadcrumb([{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }])])}
-      </Script>
+      <JsonLd data={[jsonLd.website("/contact"), jsonLd.breadcrumb([{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }])]} />
 
      <section className="relative isolate overflow-hidden border-b border-[#2A2A2A] bg-black">
         <Image src="/hero6.png" alt="Falcon Pest Control" fill priority className="object-cover object-center" />

@@ -1,53 +1,41 @@
-"use client";
-
-import { useState } from "react";
-import { PageBanner } from "../components/common/PageBanner";
-import { Section } from "../components/common/Section";
-import { Container } from "../components/common/Container";
-import { Heading } from "../components/common/Heading";
-import { ServiceCard } from "../components/common/ServiceCard";
-import { ServiceModal } from "../components/common/ServiceModal";
+// Server component. It exists purely so /services can own its own <head>.
+//
+// This file used to BE the client component ("use client"), and a client
+// component cannot export `metadata`. The route therefore silently inherited
+// the root layout's metadata, which meant /services canonicalised to the
+// homepage and reused its <title> — telling Google that the site's main
+// service page was a duplicate of the homepage. The interactive parts now live
+// in ./ServicesContent.jsx and the head is owned here.
+import { getPageMetadata, jsonLd, JsonLd } from "../lib/seo";
+import { ServicesContent } from "./ServicesContent";
 import services from "../data/services";
-import { Bug, Mouse, ScanSearch, ShieldCheck, Sparkles, CalendarClock } from "lucide-react";
-import { SlideUp } from "../components/animation/SlideUp";
 
-const iconMap = { Bug, Mouse, ScanSearch, ShieldCheck, Sparkles, CalendarClock };
+export const metadata = getPageMetadata(
+  "/services",
+  "Pest Control Services in Niagara, Ontario",
+  "Licensed pest control services across the Niagara Region — rodent, cockroach, ant, spider and quarterly protection plans for homes and businesses."
+);
 
 export default function ServicesPage() {
-  const [selectedService, setSelectedService] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleLearnMore = (service) => {
-    setSelectedService(service);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedService(null), 300); // Wait for animation
-  };
-
   return (
-    <main className="bg-black text-white">
-      <PageBanner title="Our Services" description="From one-time interventions to ongoing protection, every plan is tailored, precise, and premium." image="/services7.png" eyebrow="Services" />
-      <Section>
-        <Container>
-          <Heading eyebrow="What we provide" title="A comprehensive suite of pest solutions." description="Choose a single treatment or a year-round protection plan that keeps your property secure." center />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3" >
-            {services.map((service, index) => {
-              const Icon = iconMap[service.icon] ?? Bug;
-              return (
-                <SlideUp key={service.id} delay={index * 0.06}>
-                  <ServiceCard service={service} icon={Icon} onClick={() => handleLearnMore(service)} />
-                </SlideUp>
-              );
-            })}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Service Modal */}
-      <ServiceModal service={selectedService} isOpen={isModalOpen} onClose={handleCloseModal} />
-    </main>
+    <>
+      <JsonLd
+        data={[
+          jsonLd.website("/services"),
+          jsonLd.breadcrumb([
+            { name: "Home", href: "/" },
+            { name: "Services", href: "/services" },
+          ]),
+          ...services.map((s) =>
+            jsonLd.service({
+              name: s.title,
+              description: s.description,
+              path: "/services",
+            })
+          ),
+        ]}
+      />
+      <ServicesContent />
+    </>
   );
 }

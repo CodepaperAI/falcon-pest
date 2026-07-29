@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Facebook, Instagram, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Container } from "../common/Container";
 import { companyConfig } from "../../lib/config";
-import servicesData from "../../data/services";
+import { serviceLinks, cityLinks, guideLinks } from "../../data/navLinks";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -18,7 +18,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-[#2A2A2A] bg-[#060606]">
-      <Container className="grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-4">
+      <Container className="grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#D4AF37]">Falcon</p>
           <h3 className="mt-3 text-2xl font-semibold text-white">Pest Control</h3>
@@ -32,16 +32,37 @@ export function Footer() {
             {quickLinks.map((link) => (
               <li key={link.href}><Link href={link.href} className="transition hover:text-[#D4AF37]">{link.label}</Link></li>
             ))}
-            <li><Link href="/privacy" className="transition hover:text-[#D4AF37]">Privacy Policy</Link></li>
+            {guideLinks.map((link) => (
+              <li key={link.href}><Link href={link.href} className="transition hover:text-[#D4AF37]">{link.label}</Link></li>
+            ))}
+            {/* NOTE: a "Privacy Policy" link to /privacy used to sit here. That
+                page does not exist, so every page on the site prefetched a 404.
+                Removed rather than pointed at a fabricated policy — a privacy
+                policy has to be written by the business. Restore this link once
+                the page exists. */}
           </ul>
         </div>
 
         <div>
           <h4 className="text-lg font-semibold text-white">Services</h4>
+          {/* These six previously all pointed at /services — six anchors, one
+              destination, no keyword differentiation. Each now links to its
+              own page. */}
           <ul className="mt-4 space-y-3 text-sm text-[#BDBDBD]">
-            {servicesData.map((service) => (
-              <li key={service.id}>
-                <Link href="/services" className="transition hover:text-[#D4AF37]">{service.title}</Link>
+            {serviceLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="transition hover:text-[#D4AF37]">{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-lg font-semibold text-white">Service Areas</h4>
+          <ul className="mt-4 space-y-3 text-sm text-[#BDBDBD]">
+            {cityLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="transition hover:text-[#D4AF37]">{link.label}</Link>
               </li>
             ))}
           </ul>

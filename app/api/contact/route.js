@@ -1,6 +1,9 @@
 import { Resend } from "resend";
-import { bookingSchema } from "../../lib/validation";
+import { contactSchema } from "../../lib/validation";
 
+// This route did not exist. ContactForm's onSubmit only set a success message
+// and reset the form — it never posted anywhere — so every contact enquiry was
+// discarded while telling the customer their request had been received.
 // Constructed lazily. `new Resend()` throws when RESEND_API_KEY is absent, and
 // at module scope that turns a missing runtime secret into a hard BUILD
 // failure — the build should not depend on a mail credential.
@@ -15,12 +18,12 @@ export async function POST(request) {
     const body = await request.json();
 
     // Re-validate on the server
-    const parsed = bookingSchema.safeParse(body);
+    const parsed = contactSchema.safeParse(body);
     if (!parsed.success) {
       return Response.json({ error: "Invalid submission" }, { status: 400 });
     }
 
-    const { name, email, phone, service, date, note, sourcePage, sourceSection } = parsed.data;
+    const { name, email, phone, message, sourcePage, sourceSection } = parsed.data;
 
     const resend = getResend();
     if (!resend) {
@@ -32,18 +35,18 @@ export async function POST(request) {
       from: `${name} <${process.env.BOOKING_FROM_EMAIL}>`,
       to: [process.env.BOOKING_TO_EMAIL],
       replyTo: email,
-      subject: `New Booking: ${service} — ${date}`,
-      html: bookingEmailHtml({ name, email, phone, service, date, note, sourcePage, sourceSection }),
+      subject: `New Enquiry from ${name}${sourcePage && sourcePage !== "unknown" ? ` — ${sourcePage}` : ""}`,
+      html: contactEmailHtml({ name, email, phone, message, sourcePage, sourceSection }),
     });
 
     if (error) {
       console.error("Resend error:", error);
-      return Response.json({ error: "Could not send booking" }, { status: 502 });
+      return Response.json({ error: "Could not send enquiry" }, { status: 502 });
     }
 
     return Response.json({ ok: true });
   } catch (err) {
-    console.error("Booking route error:", err);
+    console.error("Contact route error:", err);
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -57,7 +60,7 @@ function row(label, value) {
     </tr>`;
 }
 
-function bookingEmailHtml({ name, email, phone, service, date, note, sourcePage, sourceSection }) {
+function contactEmailHtml({ name, email, phone, message, sourcePage, sourceSection }) {
   return `<!DOCTYPE html>
 <html>
   <body style="margin:0;padding:0;background:#000000;font-family:Inter,Helvetica,Arial,sans-serif;">
@@ -69,7 +72,7 @@ function bookingEmailHtml({ name, email, phone, service, date, note, sourcePage,
             <tr>
               <td style="padding:28px 24px;background:#060606;border-bottom:1px solid #D4AF37;">
                 <p style="margin:0 0 6px;color:#D4AF37;font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;">Falcon</p>
-                <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:600;">New Service Booking</h1>
+                <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:600;">New Website Enquiry</h1>
               </td>
             </tr>
 
@@ -79,9 +82,7 @@ function bookingEmailHtml({ name, email, phone, service, date, note, sourcePage,
                   ${row("Name", name)}
                   ${row("Email", `<a href="mailto:${email}" style="color:#D4AF37;text-decoration:none;">${email}</a>`)}
                   ${row("Phone", `<a href="tel:${phone}" style="color:#D4AF37;text-decoration:none;">${phone}</a>`)}
-                  ${row("Service", service)}
-                  ${row("Preferred Date", date)}
-                  ${row("Note", note ? String(note).replace(/\n/g, "<br>") : "")}
+                  ${row("Message", message ? String(message).replace(/\n/g, "<br>") : "")}
                   ${row("Came from", sourcePage && sourcePage !== "unknown" ? `${sourcePage}${sourceSection && sourceSection !== "unknown" ? ` &middot; ${sourceSection}` : ""}` : "")}
                 </table>
               </td>
@@ -95,7 +96,7 @@ function bookingEmailHtml({ name, email, phone, service, date, note, sourcePage,
 
             <tr>
               <td style="padding:18px 24px;background:#060606;border-top:1px solid #2A2A2A;">
-                <p style="margin:0;color:#7a7a7a;font-size:12px;">Sent from the Falcon Pest Control website booking form.</p>
+                <p style="margin:0;color:#7a7a7a;font-size:12px;">Sent from the Falcon Pest Control website contact form.</p>
               </td>
             </tr>
 
