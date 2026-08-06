@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 import { reviewSchema } from "../../lib/validation";
+import { formGuardFor } from "../../lib/form-guard.config";
+import { runGuards } from "../../lib/form-guard/guard";
 
 // Constructed lazily. `new Resend()` throws when RESEND_API_KEY is absent, and
 // at module scope that turns a missing runtime secret into a hard BUILD
@@ -10,9 +12,34 @@ function getResend() {
   return new Resend(key);
 }
 
+// No CORS headers are emitted, so browsers reject cross-origin calls outright.
+// The forms are same-origin and need no preflight; anything that does is not us.
+export async function OPTIONS() {
+  return new Response(null, { status: 405, headers: { Allow: "POST" } });
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
+
+    // origin -> honeypot -> timing -> Turnstile, before any field work.
+    // The action is bound to this endpoint, so a token solved on another
+    // form on this site will not verify here.
+    const verdict = await runGuards({
+      headers: request.headers,
+      fields: body,
+      config: formGuardFor("review"),
+    });
+
+    if (verdict.outcome === "reject") {
+      return Response.json({ error: verdict.message }, { status: verdict.status });
+    }
+
+    // Honeypot or impossible submit speed: mirror the real success response
+    // and send nothing, so a spammer learns nothing about which filter hit.
+    if (verdict.outcome === "silent-drop") {
+      return Response.json({ ok: true });
+    }
 
     const parsed = reviewSchema.safeParse(body);
     if (!parsed.success) {
